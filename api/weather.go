@@ -40,6 +40,16 @@ func GetWeather(cityName string) (*model.WeatherCity, error) {
 }
 
 func parseWeatherJson(bytes []byte, wc *model.WeatherCity) {
+	var result OpenWeatherMapResponse
+	json.Unmarshal(bytes, &result)
+
+	wc.Name = result.Name
+	wc.Id = int(result.Sys.Id)
+	wc.Country = result.Sys.Country
+	wc.Temperature = model.Temperature(result.Main.Temperature)
+}
+
+func parseManualWeatherJson(bytes []byte, wc *model.WeatherCity) {
 	var result map[string]interface{}
 	json.Unmarshal(bytes, &result)
 
