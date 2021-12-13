@@ -3,7 +3,7 @@ package model
 import "fmt"
 
 type City struct {
-	id      int
+	Id      int
 	Name    string
 	Country string
 }

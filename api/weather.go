@@ -2,6 +2,7 @@ package api
 
 import (
 	"andreani/goweather/model"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -39,8 +40,13 @@ func GetWeather(cityName string) (*model.WeatherCity, error) {
 }
 
 func parseWeatherJson(bytes []byte, wc *model.WeatherCity) {
-	//TODO: parsear JSON
-	wc.Name = "Dummy"
-	wc.Country = "AL"
-	wc.Temperature = 31
+	var result map[string]interface{}
+	json.Unmarshal(bytes, &result)
+
+	wc.Name = result["name"].(string)
+	sys := result["sys"].(map[string]interface{})
+	wc.Id = int(sys["id"].(float64))
+	wc.Country = sys["country"].(string)
+	main := result["main"].(map[string]interface{})
+	wc.Temperature = model.Temperature(main["temp"].(float64))
 }
