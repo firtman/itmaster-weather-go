@@ -1,13 +1,15 @@
 package main
 
 import (
-	"andreani/goweather/model"
+	"andreani/goweather/api"
 	"fmt"
 )
 
 func main() {
-	caba := model.WeatherCity{}
-	caba.Name = "CABA"
-	caba.Country = "AR"
-	fmt.Printf("La ciudad es: %v", caba)
+	wc, err := api.GetWeather("Madrid")
+	if err != nil {
+		fmt.Println("We couldn't fetch the weather: ", err.Error())
+	} else {
+		fmt.Println(wc)
+	}
 }
