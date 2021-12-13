@@ -7,8 +7,8 @@ type Temperature float64
 // }
 
 type Weather struct {
-	temperature Temperature
-	feelsLike   Temperature
-	condition   int
-	visibility  float64
+	Temperature Temperature
+	FeelsLike   Temperature
+	Condition   int
+	Visibility  float64
 }

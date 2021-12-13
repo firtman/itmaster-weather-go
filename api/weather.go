@@ -2,7 +2,6 @@ package api
 
 import (
 	"andreani/goweather/model"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -27,13 +26,21 @@ func GetWeather(cityName string) (*model.WeatherCity, error) {
 			// hubo error de red al descargar el body
 			return nil, err
 		}
-		bodyStr := string(body)
-		fmt.Println(bodyStr)
-		return &model.WeatherCity{}, nil
+		// bodyStr := string(body)
+		// fmt.Println(bodyStr)
+		wc := model.WeatherCity{}
+		parseWeatherJson(body, &wc)
+		return &wc, nil
 	} else {
 		// hubo error en el servidor
-		return nil, errors.New(fmt.Sprintf("Status code error %v", res.Status))
+		// return nil, errors.New(fmt.Sprintf("Status code error %v", res.Status))
+		return nil, fmt.Errorf("status code error %v", res.Status)
 	}
 }
 
-func parseWeatherJson(bytes []byte)
+func parseWeatherJson(bytes []byte, wc *model.WeatherCity) {
+	//TODO: parsear JSON
+	wc.Name = "Dummy"
+	wc.Country = "AL"
+	wc.Temperature = 31
+}
